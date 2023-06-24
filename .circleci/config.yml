@@ -11,7 +11,7 @@ jobs:
          
      # build image
      - run: |
-         docker build -f DotNetCoreSampleApi/Dockerfile-development -t aspnetapp
+         docker build -f DotNetCoreSampleApi/Dockerfile.development -t aspnetapp
 
      # deploy the image
     #  - run: |
