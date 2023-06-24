@@ -20,16 +20,16 @@ jobs:
           command: dotnet.exe build 
       - run:
           name: "Run Application Tests"
-          command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage -p:CollectCoverage=true -p:CoverletOutput="coverage" -p:CoverletOutputFormat="json%2cCobertura" -p:MergeWith="coverage\coverage.json"
+          command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage -p:CollectCoverage=true -p:CoverletOutput="coverage" -p:CoverletOutputFormat="json%2cCobertura" -p:MergeWith="AspNetCoreTests.UnitTests\coverage.json"
       - run: 
           name: test
           command: |
             tree /f
             dir
-      # - run: 
-      #     name: "Generating code coverage reports"
-      #     command: dotnet.exe reportgenerator -reports:AspNetCoreTests.UnitTests\coverage.cobertura.xml 
-      #            -targetdir:AspNetCoreTests.UnitTests -reporttypes:"HTML;HTMLSummary"
+      - run: 
+          name: "Generating code coverage reports"
+          command: dotnet.exe reportgenerator -reports:AspNetCoreTests.UnitTests\coverage.cobertura.xml 
+                 -targetdir:AspNetCoreTests.UnitTests -reporttypes:"HTML;HTMLSummary"
       # - run: 
       #     name: show html
       #     command: tree /f
