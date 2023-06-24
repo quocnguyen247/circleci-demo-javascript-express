@@ -10,6 +10,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Install reportgenerator"
+          command: dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.1
+      - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
       - run:
@@ -21,9 +24,13 @@ jobs:
       - run: 
           name: test
           command: tree /f
-      # - run: 
-      #     name: "Copy Coverage To Predictable Location"
-      #     command: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
+      - run: 
+          name: "Copy Coverage To Predictable Location"
+          command: dotnet reportgenerator -reports:coverage\coverage.cobertura.xml 
+                 -targetdir:coverage -reporttypes:"HTML;HTMLSummary"
+      - run: 
+          name: show html
+          command: tree /f
 
   build:
     description: Build application with Release configuration
