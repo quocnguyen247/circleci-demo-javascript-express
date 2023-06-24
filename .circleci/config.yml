@@ -21,9 +21,9 @@ jobs:
       - run: 
           name: test
           command: tree /f
-      # - run: 
-      #     name: "Copy Coverage To Predictable Location"
-      #     command: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
+      - run: 
+          name: "Copy Coverage To Predictable Location"
+          command: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
 
   build:
     description: Build application with Release configuration
