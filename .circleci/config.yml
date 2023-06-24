@@ -9,7 +9,8 @@ jobs:
       name: windows/default
     working_directory: ~/project
     steps:
-      - checkout
+      - checkout:
+          path: ~/project
       - run:
           name: "Install reportgenerator"
           command: dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.1
