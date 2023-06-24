@@ -28,4 +28,4 @@ jobs:
       - run:
           name: Spin up webapp
           command: |
-            docker-compose build
+            docker-compose -f docker-compose-development.yml build
