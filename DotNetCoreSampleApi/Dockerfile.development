@@ -4,12 +4,13 @@ WORKDIR /app
 COPY . ./
 RUN dotnet restore
 # Copy everything else and build
-
+WORKDIR /app
 RUN dotnet publish -c Release -o out
 
 # Serve Stage
 FROM mcr.microsoft.com/dotnet/aspnet:2.1
 WORKDIR /app
+RUN ls -ll
 COPY --from=build /app/out .
 
 
