@@ -2,13 +2,13 @@ version: 2.1
 orbs:
   # use latest 1.x.y version of the orb
   # best practice is to use an exact version
-  cypress: cypress-io/cypress@1.16.1
+  cypress: cypress-io/cypress@3.1.2
   node: circleci/node@1.1
 
 executors:
   chrome80-ff72:
     docker:
-      - image: 'cypress/browsers:node13.6.0-chrome80-ff72'
+      - image: "cypress/browsers:node13.6.0-chrome80-ff72"
 
 # simplest use case - do everything in a single job
 # workflows:
@@ -44,7 +44,7 @@ jobs:
   unit:
     executor:
       name: node/default
-      tag: '12'
+      tag: "12"
     steps:
       - checkout
       - node/with-cache:
@@ -85,7 +85,7 @@ workflows:
           # it is a single job, so no need to
           # cache workspace (faster!)
           no-workspace: true
-          command: 'npm run report'
+          command: "npm run report"
           post-steps:
             - store_test_results:
                 path: cypress/results
@@ -104,7 +104,6 @@ workflows:
           # starting with CYPRESS are set
           # using https://github.com/bahmutov/print-env
           build: npx has-env CYPRESS
-
 # realistic case: install in 1 job,
 # run tests in parallel on several machines after that
 # workflows:
