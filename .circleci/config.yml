@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Download compose build
           command: |
-            docker-compose -f docker-build.yml build 
+            docker-compose -f docker-compose.yml build 
  
   aks-deploy:
     docker:
