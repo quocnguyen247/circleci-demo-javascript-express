@@ -22,10 +22,11 @@ jobs:
       - run: 
           name: Generate reports
           command: |
+            mkdir -p reports
             tree /f
             cp AspNetCoreTests.UnitTests\coverage.cobertura.xml coverage\coverage.cobertura.xml
             dotnet tool install --tool-path tools dotnet-reportgenerator-globaltool --version 4.6.1
-            ./tools/reportgenerator -reports:"coverage\coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HTML;HTMLSummary"
+            ./tools/reportgenerator -reports:"coverage\coverage.cobertura.xml" -targetdir:"reports" -reporttypes:"HTML;HTMLSummary"
       # - persist_to_workspace:
       #     # Must be an absolute path, or relative path from working_directory
       #     root: coverage
@@ -40,7 +41,7 @@ jobs:
           name: show html
           command: tree /f
       - store_test_results: 
-          path: coverage
+          path: reports
 
   build:
     description: Build application with Release configuration
