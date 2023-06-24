@@ -10,18 +10,15 @@ jobs:
   build:
     working_directory: /dockerapp1
     docker:
-      - image: docker:18.06.0-ce
+      - image: docker:17.05.0-ce-git
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '1.29.2'
+          name: Install dependencies
           command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+            apk add --no-cache py-pip=9.0.0-r1
+            pip install docker-compose==1.19.0
       - run:
           name: Run tests
           command: |
