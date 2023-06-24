@@ -25,12 +25,10 @@ jobs:
       - run:
           name: Download and install docker compose
           command: |
-            yum -version
-            curl -version
-            # apk update && apk upgrade && apk add curl  
-            # curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64" -o ~/docker-compose  
-            # chmod +x ~/docker-compose  
-            # mv ~/docker-compose /usr/local/bin/docker-compose
+            apt-get update && apt-get upgrade && apt-get install -y curl
+            curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64" -o ~/docker-compose  
+            chmod +x ~/docker-compose  
+            mv ~/docker-compose /usr/local/bin/docker-compose
   aks-deploy:
     docker:
       - image: cimg/base:2023.05
