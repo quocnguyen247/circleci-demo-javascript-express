@@ -17,7 +17,7 @@ jobs:
           command: dotnet.exe build 
       - run:
           name: "Run Application Tests"
-          command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+          command: dotnet.exe test --no-build -c Release -l "console;verbosity=normal" --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
       - run: 
           name: test
           command: tree /f
