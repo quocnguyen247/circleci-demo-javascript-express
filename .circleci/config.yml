@@ -1,5 +1,22 @@
-version: 2
+version: 2.1
 jobs:
+ save_hello_world_output:
+   docker:
+     - image: circleci/node:13.8.0
+   steps:
+     - run: echo "hello world" > ~/output.txt
+     - persist_to_workspace:
+         root: ~/
+         paths:
+           - output.txt
+
+ print_output_file:
+   docker:
+     - image: circleci/node:13.8.0
+   steps:
+     - attach_workspace:
+        at: ~/
+     - run: cat ~/output.txt
  build:
    machine: true
    steps:
@@ -26,3 +43,11 @@ jobs:
     #       -H "Content-Type: application/json" \
     #       -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
     #       -H "Authorization: Bearer $HEROKU_API_KEY"
+
+workflows:
+  my_workflow:
+    jobs:
+      - save_hello_world_output
+      - print_output_file:
+          requires:
+            - save_hello_world_output
