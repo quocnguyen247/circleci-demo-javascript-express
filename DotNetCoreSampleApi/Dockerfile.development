@@ -1,10 +1,10 @@
 # Build Stage
 FROM mcr.microsoft.com/dotnet/sdk:2.1 AS build
 WORKDIR /src
-COPY *.csproj ./
+COPY . ./
 RUN dotnet restore
 # Copy everything else and build
-COPY . ./
+
 RUN dotnet publish -c Release -o out
 
 # Serve Stage
