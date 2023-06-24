@@ -30,13 +30,19 @@ jobs:
             tree /f
             cp .\AspNetCoreTests.UnitTests\coverage.cobertura.xml .\coverage\coverage.cobertura.xml
             dir .\coverage
+      - store_artifacts:
+          path: coverage
+          destination: coverage
       - run: 
           name: "Generating code coverage reports"
           command: dotnet.exe reportgenerator -reports:coverage\coverage.cobertura.xml 
                  -targetdir:coverage -reporttypes:"HTML;HTMLSummary"
+      
       # - run: 
       #     name: show html
       #     command: tree /f
+      # - store_artifacts:
+      #     path: coverage
 
   build:
     description: Build application with Release configuration
