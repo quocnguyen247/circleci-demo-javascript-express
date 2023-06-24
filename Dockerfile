@@ -1,15 +1,15 @@
-FROM node
-MAINTAINER jaga santagostino <kandros5591@gmail.com>
+# Build Stage
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY . ./
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Serve Stage
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build /src/out .
 
-COPY package.json /usr/src/app
-RUN npm install
-COPY . /usr/src/app
 
-ENV NODE_ENV production
-
-EXPOSE 8000
-CMD ["npm", "run", "bs"]
+ENTRYPOINT [ "dotnet", "docker-dotnet-api.dll" ]
 
