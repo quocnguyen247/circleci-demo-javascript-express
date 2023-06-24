@@ -38,14 +38,15 @@ jobs:
       #     # Must be relative path from root
       #     paths:
       #       - coverage
-      - store_artifacts:
-          path: coverage
-          destination: coverage
+      # - store_artifacts:
+      #     path: coverage
+      #     destination: coverage
       - run: 
           name: "Generating code coverage reports"
           command: | 
             pwd
-            dotnet.exe reportgenerator -reports:"coverage\coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HTML;HTMLSummary"
+            cd coverage
+            dotnet.exe reportgenerator -reports:"coverage.cobertura.xml" -targetdir:"." -reporttypes:"HTML;HTMLSummary"
       
       # - run: 
       #     name: show html
