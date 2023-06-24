@@ -8,7 +8,7 @@ RUN dotnet publish -c Release -o out
 RUN pwd
 
 # Serve Stage
-FROM mcr.microsoft.com/dotnet/aspnet:2.1
+FROM mcr.microsoft.com/dotnet/aspnet:2.1 as serv
 WORKDIR /app
-COPY --from=buidenv /app/out .
+COPY --from=buidenv /app/out ./
 ENTRYPOINT [ "dotnet", "DotNetCoreSampleApi.dll" ]
