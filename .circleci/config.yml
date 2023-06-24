@@ -28,7 +28,7 @@ jobs:
           name: test
           command: |
             tree /f
-            dir
+            cp .\AspNetCoreTests.UnitTests\coverage.cobertura.xml .\coverage\coverage.cobertura.xml
       # - run: 
       #     name: "Generating code coverage reports"
       #     command: dotnet.exe reportgenerator -reports:AspNetCoreTests.UnitTests\coverage.cobertura.xml 
