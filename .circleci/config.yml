@@ -35,8 +35,8 @@ jobs:
           destination: coverage
       - run: 
           name: "Generating code coverage reports"
-          command: dotnet.exe reportgenerator -reports:coverage\coverage.cobertura.xml 
-                 -targetdir:coverage -reporttypes:"HTML;HTMLSummary"
+          command: dotnet.exe reportgenerator -reports:~\project\coverage\coverage.cobertura.xml 
+                 -targetdir:~\project\coverage -reporttypes:"HTML;HTMLSummary"
       
       # - run: 
       #     name: show html
