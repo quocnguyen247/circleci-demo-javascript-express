@@ -7,10 +7,10 @@ jobs:
   test:
     executor:
       name: windows/default
-    working_directory: ~/project
+    working_directory: ~\project
     steps:
       - checkout:
-          path: ~/project
+          path: ~\project
       - run:
           name: "Install reportgenerator"
           command: dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.1
@@ -30,8 +30,14 @@ jobs:
           name: test
           command: |
             tree /f
-            cp .\AspNetCoreTests.UnitTests\coverage.cobertura.xml .\coverage\coverage.cobertura.xml
-            dir .\coverage
+            cp AspNetCoreTests.UnitTests\coverage.cobertura.xml coverage\coverage.cobertura.xml
+            dir coverage
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory
+          root: coverage
+          # Must be relative path from root
+          paths:
+            - echo-output
       - store_artifacts:
           path: coverage
           destination: coverage
