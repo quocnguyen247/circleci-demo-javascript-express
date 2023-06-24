@@ -32,12 +32,12 @@ jobs:
             tree /f
             cp AspNetCoreTests.UnitTests\coverage.cobertura.xml coverage\coverage.cobertura.xml
             dir coverage
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory
-          root: coverage
-          # Must be relative path from root
-          paths:
-            - echo-output
+      # - persist_to_workspace:
+      #     # Must be an absolute path, or relative path from working_directory
+      #     root: coverage
+      #     # Must be relative path from root
+      #     paths:
+      #       - coverage
       - store_artifacts:
           path: coverage
           destination: coverage
