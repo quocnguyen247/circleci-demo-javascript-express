@@ -13,6 +13,9 @@ jobs:
           name: "Install project dependencies"
           command: dotnet.exe restore
       - run:
+          name: "Build Application"
+          command: dotnet.exe build 
+      - run:
           name: "Run Application Tests"
           command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
       - run: 
