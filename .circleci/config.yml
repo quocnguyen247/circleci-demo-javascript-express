@@ -25,9 +25,9 @@ jobs:
           name: test
           command: tree /f
       - run: 
-          name: "Copy Coverage To Predictable Location"
-          command: dotnet reportgenerator -reports:coverage\coverage.cobertura.xml 
-                 -targetdir:coverage -reporttypes:"HTML;HTMLSummary"
+          name: "Generating code coverage reports"
+          command: dotnet reportgenerator -reports:AspNetCoreTests.UnitTests\coverage.cobertura.xml 
+                 -targetdir:AspNetCoreTests.UnitTests -reporttypes:"HTML;HTMLSummary"
       - run: 
           name: show html
           command: tree /f
