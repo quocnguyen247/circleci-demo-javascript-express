@@ -17,11 +17,13 @@ jobs:
      - attach_workspace:
         at: ~/
      - run: cat ~/output.txt
- build:
-   machine: true
+ buildev:
+   docker:
+     - image: cimg/base:2023.05
    steps:
      - checkout
-
+     - setup_remote_docker:
+          docker_layer_caching: true
      # test
      - run: |
          docker-compose -f docker-compose.unittests.yml run --rm unittests
@@ -51,3 +53,4 @@ workflows:
       - print_output_file:
           requires:
             - save_hello_world_output
+      - buildev
