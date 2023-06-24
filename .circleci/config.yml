@@ -18,6 +18,10 @@ jobs:
             docker build -t dotnetaksdemo.azurecr.io/dotnetapi-aks-app:$CIRCLE_SHA1 .
             # echo $AZURE_SP_PASSWORD | docker login dotnetaksdemo.azurecr.io -u $AZURE_SP --password-stdin
             # docker push dotnetaksdemo.azurecr.io/dotnetapi-aks-app:$CIRCLE_SHA1
+
+      - run:
+          name: Docker version
+          command: docker --version
   aks-deploy:
     docker:
       - image: cimg/base:2023.05
