@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   # use latest 1.x.y version of the orb
   # best practice is to use an exact version
-  cypress: cypress-io/cypress@2.2.2
+  cypress: cypress-io/cypress@2.2.0
   node: circleci/node@5.1.0
 
 executors:
