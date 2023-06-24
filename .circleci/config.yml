@@ -16,14 +16,11 @@ jobs:
       - run:
           name: "Build Application"
           command: dotnet.exe build 
-      - run: 
-          name: show
-          command: tree /f
       - run:
           name: "Run Application Tests"
           command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage -p:CollectCoverage=true -p:CoverletOutput="coverage" -p:CoverletOutputFormat="json%2cCobertura" -p:MergeWith="AspNetCoreTests.UnitTests\coverage.json"
       - run: 
-          name: test
+          name: Generate reports
           command: |
             tree /f
             cp AspNetCoreTests.UnitTests\coverage.cobertura.xml coverage\coverage.cobertura.xml
@@ -35,13 +32,13 @@ jobs:
       #     # Must be relative path from root
       #     paths:
       #       - coverage
-      # - store_artifacts:
-      #     path: coverage
-      #     destination: coverage
+      - store_artifacts:
+          path: coverage
+          destination: coverage
       
-      # - run: 
-      #     name: show html
-      #     command: tree /f
+      - run: 
+          name: show html
+          command: tree /f
       # - store_artifacts:
       #     path: coverage
 
