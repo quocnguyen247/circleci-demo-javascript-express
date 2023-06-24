@@ -1,15 +1,24 @@
 version: 2.1
-orbs:
-  docker-compose: parrable/docker-compose@1.0.1
 jobs:
-  check-and-build-only:
-    executor: docker/docker
+  test_ci:
+    docker:
+      - image: docker:17.05.0-ce-git
+    resource_class: small
+
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.12
+
       - run:
-          name: "Docker compose build"
-          command: docker-compose build
-workflows:
-  build-docker-image-only:
-    jobs:
-      - check-and-build-only
+          name: Download and install docker compose
+          command: |
+            apk update && apk upgrade && apk add curl  
+            curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64" -o ~/docker-compose  
+            chmod +x ~/docker-compose  
+            mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Spin up webapp
+          command: |
+            docker-compose build
