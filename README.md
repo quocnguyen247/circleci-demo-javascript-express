@@ -1,27 +1,47 @@
-# forked from
+# Testing in .NET Core 
 
-Forked from: https://github.com/dotnet/samples/tree/6627c7fbfb70a97362e83544b29dd3fab0bd9a5f/core/getting-started/unit-testing-using-dotnet-test
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Jadhielv/unit-testing-with-dotnet-core/blob/master/LICENSE)
+![GitHub repo size](https://img.shields.io/github/repo-size/jadhielv/unit-testing-with-dotnet-core)
+[![Twitter Follow](https://img.shields.io/twitter/follow/jadhielv?style=social)](https://twitter.com/intent/follow?screen_name=jadhielv)
 
-# Unit testing using dotnet test sample
+## Getting Started
 
-This sample is part of the [unit testing tutorial](https://docs.microsoft.com/dotnet/core/testing/unit-testing-with-dotnet-test) for creating applications with unit tests included. See that topic for detailed steps on the code for this sample.
+This project is a starting point for Unit testing C# with MSTest and .NET Core
 
-## Key features
+### How to Use
 
-This sample demonstrates creating a library and writing effective unit tests that validate the features in that library. The example provides a service that indicates whether a number is prime.
+**Step 1:**
 
-## Restore and test
-
-To run the tests, navigate to the *PrimeService.Tests* directory and type the following commands:
+Download or clone this repo by using the link below:
 
 ```
-dotnet restore
+https://github.com/Jadhielv/unit-testing-with-dotnet-core.git
+```
+
+**Step 2 (```Check everything installed correctly```):**
+
+Once you've installed, open a new command prompt and run the following command:
+
+```
+dotnet
+```
+
+**Step 3:**
+
+Build the project and its dependencies
+
+```
+dotnet build
+```
+
+**Step 4:**
+
+Run the tests:
+
+```
 dotnet test
 ```
 
-`dotnet restore` restores the packages of both projects.
+### License
 
-`dotnet test` builds both projects and runs all of the configured tests.
-
-**Note:** Starting with .NET Core 2.0 SDK, you don't have to run [`dotnet restore`](https://docs.microsoft.com/dotnet/core/tools/dotnet-restore) because it's run implicitly by all commands that require a restore to occur, such as `dotnet new`, `dotnet build` and `dotnet run`.
-It's still a valid command in certain scenarios where doing an explicit restore makes sense, such as [continuous integration builds in Azure DevOps Services](https://docs.microsoft.com/azure/devops/build-release/apps/aspnet/build-aspnet-core) or in build systems that need to explicitly control the time at which the restore occurs.
+This project uses the following license: [MIT](<https://choosealicense.com/licenses/mit/>)

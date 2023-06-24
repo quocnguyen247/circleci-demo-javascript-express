@@ -16,8 +16,11 @@ jobs:
           name: "Run Application Tests"
           command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
       - run: 
-          name: "Copy Coverage To Predictable Location"
-          command: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
+          name: test
+          command: tree /f
+      # - run: 
+      #     name: "Copy Coverage To Predictable Location"
+      #     command: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
 
   build:
     description: Build application with Release configuration
