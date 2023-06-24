@@ -45,7 +45,8 @@ jobs:
           name: "Generating code coverage reports"
           command: | 
             pwd
-            dotnet.exe reportgenerator "-reports:coverage\coverage.cobertura.xml" "-targetdir:coverage" -reporttypes:"HTML;HTMLSummary"
+            dotnet.exe reportgenerator -help
+            # dotnet.exe reportgenerator "-reports:coverage\coverage.cobertura.xml" "-targetdir:coverage" -reporttypes:"HTML;HTMLSummary"
       
       # - run: 
       #     name: show html
