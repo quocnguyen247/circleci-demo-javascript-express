@@ -1,15 +1,14 @@
 # Build Stage
-FROM mcr.microsoft.com/dotnet/sdk:2.1 AS build
+FROM mcr.microsoft.com/dotnet/sdk:2.1 AS buidenv
 WORKDIR /app
-COPY . ./
+COPY [".","/app"]
 RUN dotnet restore
 # Copy everything else and build
-WORKDIR /app
 RUN dotnet publish -c Release -o out
 RUN pwd
 
 # Serve Stage
 FROM mcr.microsoft.com/dotnet/aspnet:2.1
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=buidenv /app/out .
 ENTRYPOINT [ "dotnet", "DotNetCoreSampleApi.dll" ]
