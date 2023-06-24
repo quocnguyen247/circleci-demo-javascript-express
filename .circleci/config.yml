@@ -39,7 +39,7 @@ jobs:
           name: show html
           command: tree /f
       - store_test_results: 
-          path: coverage
+          path: coverage\coverage.cobertura.xml
 
   build:
     description: Build application with Release configuration
