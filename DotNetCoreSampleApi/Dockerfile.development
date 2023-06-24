@@ -6,7 +6,7 @@ RUN dotnet restore
 # Copy everything else and build
 WORKDIR /app
 RUN dotnet publish -c Release -o out
-RUN ls -ll /app/out
+RUN pwd
 
 # Serve Stage
 FROM mcr.microsoft.com/dotnet/aspnet:2.1
