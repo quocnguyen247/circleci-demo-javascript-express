@@ -14,7 +14,7 @@ jobs:
           command: dotnet.exe restore
       - run: 
           name: Install reportgenerator
-          command: dotnet tool install --global dotnet-reportgenerator-globaltool --tool-path tools
+          command: dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.1
       - run:
           name: "Build Application"
           command: dotnet.exe build 
