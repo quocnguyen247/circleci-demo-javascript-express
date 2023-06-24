@@ -9,11 +9,10 @@ jobs:
       name: windows/default
     working_directory: ~\project
     steps:
-      - checkout:
-          path: ~\project
+      - checkout
       - run:
           name: "Install reportgenerator"
-          command: dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.1
+          command: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.22
       - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
@@ -31,7 +30,7 @@ jobs:
           command: |
             tree /f
             cp AspNetCoreTests.UnitTests\coverage.cobertura.xml coverage\coverage.cobertura.xml
-            dir coverage
+            dotnet.exe reportgenerator help
       # - persist_to_workspace:
       #     # Must be an absolute path, or relative path from working_directory
       #     root: coverage
@@ -45,7 +44,7 @@ jobs:
           name: "Generating code coverage reports"
           command: | 
             pwd
-            dotnet.exe reportgenerator help
+            
             # dotnet.exe reportgenerator "-reports:coverage\coverage.cobertura.xml" "-targetdir:coverage" -reporttypes:"HTML;HTMLSummary"
       
       # - run: 
