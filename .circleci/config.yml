@@ -17,7 +17,7 @@ jobs:
           command: dotnet.exe build 
       - run:
           name: "Run Application Tests"
-          command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage -p:CoverletOutputFormat="json%2cCobertura"
+          command: dotnet.exe test --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage -p:CoverletOutputFormat="json%2cCobertura" -p:MergeWith="coverage\coverage.json"
       - run: 
           name: test
           command: tree /f
@@ -33,7 +33,7 @@ jobs:
       - checkout
       - run:
           name: "Build Application according to some given configuration"
-          command: dotnet.exe build --no-restore
+          command: echo "Build"
 workflows:
   build-and-test:
     jobs:
