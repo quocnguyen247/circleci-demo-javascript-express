@@ -9,6 +9,8 @@ jobs:
           docker_layer_caching: true
      # test
       - run: |
+          export DOCKER_BUILDKIT=0
+          export COMPOSE_DOCKER_CLI_BUILD=0
           docker-compose -f docker-compose-integration.yml up -d
 
 workflows:
