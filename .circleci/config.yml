@@ -9,7 +9,7 @@ jobs:
           docker_layer_caching: true
      # test
       - run: |
-          docker-compose up --build --abort-on-container-exit
+          docker-compose up --build -d
 
 workflows:
   my_workflow:
