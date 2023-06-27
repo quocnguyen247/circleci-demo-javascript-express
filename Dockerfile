@@ -1,15 +1,22 @@
-FROM node
-MAINTAINER jaga santagostino <kandros5591@gmail.com>
+FROM node AS base
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Dockerize is needed to sync containers startup
+ENV DOCKERIZE_VERSION v0.6.0
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-COPY package.json /usr/src/app
-RUN npm install
-COPY . /usr/src/app
+RUN mkdir -p ~/app
 
-ENV NODE_ENV production
+WORKDIR ~/app
 
-EXPOSE 8000
-CMD ["npm", "run", "bs"]
+COPY package.json .
+COPY yarn.lock .
 
+FROM base AS dependencies
+
+RUN yarn
+
+FROM dependencies AS runtime
+
+COPY . .

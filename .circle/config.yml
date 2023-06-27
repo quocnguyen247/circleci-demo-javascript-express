@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  buildev:
+    docker:
+      - image: cimg/base:2023.05
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+     # test
+      - run: |
+          docker-compose up --build --abort-on-container-exit
+
+workflows:
+  my_workflow:
+    jobs:
+      - buildev
+      
