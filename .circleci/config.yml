@@ -1,28 +1,18 @@
 version: 2.1
 jobs:
- save_hello_world_output:
-   docker:
-     - image: circleci/node:13.8.0
-   steps:
-     - run: echo "hello world" > ~/output.txt
-     - persist_to_workspace:
-         root: ~/
-         paths:
-           - output.txt
-
- print_output_file:
-   docker:
-     - image: circleci/node:13.8.0
-   steps:
-     - attach_workspace:
-        at: ~/
-     - run: cat ~/output.txt
+  buildev:
+    docker:
+      - image: cimg/base:2023.05
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+     # test
+      - run: |
+          docker-compose -f docker-compose-integration.yml up -d
 
 workflows:
   my_workflow:
     jobs:
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - buildev
       
