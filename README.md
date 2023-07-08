@@ -1,246 +1,122 @@
-# CircleCI Demo JavaScript/Express.js [![CircleCI](https://circleci.com/gh/CircleCI-Public/circleci-demo-javascript-express.svg?style=shield)](https://circleci.com/gh/CircleCI-Public/circleci-demo-javascript-express) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+## Cloud DevOps ND - C4- Microservices at Scale using AWS & Kubernetes - Supporting Material and Project Starter
 
-This project was built from a MERN Starter kit (original URLs broken). Discussions still [active here](https://hashnode.com/n/mern). MERN is Mongo, Express, React and NodeJS.
+This repository is associated with Cloud DevOps ND - Course 04 - Microservices at Scale using AWS & Kubernetes. In here, you'll find:
+1. Supporting material used in the video demonstration in the course 
+1. Starting code for a project, in which you can containerize and deploy a machine learning srevice using Kubernetes.
 
-See the [JavaScript language guide for CircleCI here](https://circleci.com/docs/2.0/language-javascript/).
+---
 
-## Quickstart
+### A. Dependencies
+#### A.1. Python
+[Download and install the python](https://www.python.org/downloads/). 
 
-```
-  npm install -g mern-cli
-  mern init your_new_app
-  cd your_new_app
-  npm install
-  npm start
-```
+#### A.2. Docker Desktop
+You would require you to install Docker Desktop to create containers for individual microservices. Refer the following links for instructions 
+* [macOS](https://docs.docker.com/docker-for-mac/install/), 
+* [Windows 10 64-bit: Pro, Enterprise, or Education](https://docs.docker.com/docker-for-windows/install/), 
+* [Windows  10 64-bit Home](https://docs.docker.com/toolbox/toolbox_install_windows/). 
+* You can find installation instructions for other operating systems at:  https://docs.docker.com/install/
 
-**Note : Please make sure your MongoDB is running.** For MongoDB installation guide see [this](https://docs.mongodb.org/v3.0/installation/). Also `npm3` is required to install dependencies properly.
+#### A.3. Kubernetes 
+You would need to install any one tool for creating a Kubernetes cluster - KubeOne / Minikube / kubectl on top of Docker Desktop:
+1. [Install and Set Up kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) directly on top of Docker desktop - For Windows/macOS
+2. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) - For Linux/macOS
 
-## Available Commands
+#### A.4. AWS account to access AWS Lambda
+You'll need an [AWS account](https://aws.amazon.com/free/?all-free-tier.&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc) to get started with [AWS Lambda](https://aws.amazon.com/lambda/), which is a serverless computing platform on cloud.  
 
-1. `npm run start` - starts the development server with hot reloading enabled
+#### A.5. An account with Circle CI
+You may sign up on [CircleCI.com](https://circleci.com/signup/) with your GitHub credentials. 
 
-2. `npm run bs` - bundles the code and starts the production server
+---
 
-3. `npm run test` - start the test runner
+### B. The Overarching Diagram
 
-4. `npm run watch:test` - start the test runner with watch mode
+![Overview](https://camo.githubusercontent.com/bb29cd924f9eb66730bbf7b0ed069a6ae03d2f1a/68747470733a2f2f757365722d696d616765732e67697468756275736572636f6e74656e742e636f6d2f35383739322f35353335343438332d62616537616638302d353437612d313165392d393930392d6135363231323531303635622e706e67)
 
-5. `npm run cover` - generates test coverage report
+---
 
-6. `npm run lint` - runs linter to check for lint errors
+### C. Tutorials
 
-## File Structure
+#### C.1. AWS Lambda & Serverless
 
-### Webpack Configs
+* [Making Change](https://github.com/udacity/DevOps_Microservices/tree/master/lambda-functions/make-change-tutorial): Create and deploy a serverless lambda function that responds to an input request; this example creates the correct amount of change to make up a value in US dollars.
+* [Wikipedia Query](https://github.com/udacity/DevOps_Microservices/tree/master/lambda-functions/wikipedia-query): Deploy a lambda function that responds to an input, wikipedia page query; this example returns the first sentence of a specific wikipedia page upon being queried.
 
-MERN uses Webpack for bundling modules. There are four types of Webpack configs provided `webpack.config.dev.js` (for development), `webpack.config.prod.js` (for production), `webpack.config.server.js` (for bundling server in production) and `webpack.config.babel.js` (for [babel-plugin-webpack-loaders](https://github.com/istarkov/babel-plugin-webpack-loaders) for server rendering of assets included through webpack).
 
-The Webpack configuration is minimal and beginner-friendly. You can customise and add more features to it for production build.
+### D. Project Instructions
 
-### Server
+* [Operationalize a Machine Learning Microservice API](https://github.com/udacity/DevOps_Microservices/tree/master/project-ml-microservice-kubernetes): Deploy a containerized, machine learning application using Kubernetes.
 
-MERN uses express web framework. Our app sits in server.js where we check for NODE_ENV.
+To run any project code, you'll have to set up a virtual environment with the project dependencies. All of the following instructions are to be completed via a terminal/command line prompt. 
 
-If NODE_ENV is development, we apply Webpack middlewares for bundling and Hot Module Replacement.
+### E. Create and Activate an Environment
 
-#### Server Side Rendering
+#### E.1. Git and version control
+These instructions also assume you have `git` installed for working with Github from a terminal window, but if you do not, you can download that first from this [Github installation page](https://www.atlassian.com/git/tutorials/install-git).
 
-We use React Router's match function for handling all page requests so that browser history works.
+**Now, you're ready to create your local environment!**
 
-All the routes are defined in `client/routes.js`. React Router renders components according to route requested.
-
-```js
-// Server Side Rendering based on routes matched by React-router.
-app.use((req, res) => {
-    match({
-        routes,
-        location: req.url
-    }, (err, redirectLocation, renderProps) => {
-        if (err) {
-            return res.status(500).end('Internal server error');
-        }
-
-        if (!renderProps) {
-            return res.status(404).end('Not found!');
-        }
-
-        const initialState = {
-            posts: [],
-            post: {}
-        };
-
-        const store = configureStore(initialState);
-
-        fetchComponentData(store.dispatch, renderProps.components, renderProps.params).then(() => {
-            const initialView = renderToString(
-                <Provider store = {store} >
-                  <RouterContext {...renderProps}/>
-                </Provider>
-            );
-
-            const finalState = store.getState();
-
-            res.status(200).end(renderFullPage(initialView, finalState));
-        }).catch(() => {
-            res.end(renderFullPage('Error', {}));
-        });
-    });
-});
+1. If you haven't already done so, clone the project repository, and navigate to the main project folder. 
+```bash
+git clone https://github.com/udacity/DevOps_Microservices.git
+cd DevOps_Microservices/project-ml-microservice-kubernetes
 ```
 
-`match` takes two parameters, first is an object that contains routes, location and history and second is a callback function which is called when routes have been matched to a location.
-
-If there's an error in matching we return 500 status code, if no matches are found we return 404 status code. If a match is found then, we need to create a new Redux Store instance.
-
-**Note:** A new Redux Store has populated afresh on every request.
-
-`fetchComponentData` is the essential function. It takes three params: first is a dispatch function of Redux store, the second is an array of components that should be rendered in current route and third is the route params. `fetchComponentData` collects all the needs (need is an array of actions that are required to be dispatched before rendering the component) of components in the current route. It returns a promise when all the required actions are dispatched. We render the page and send data to the client for client-side rendering in `window.__INITIAL_STATE__`.
-
-### Client
-
-Client directory contains all the shared components, routes, modules.
-
-#### components
-This folder contains all the common components which are used throughout the project.
-
-#### index.js
-Index.js simply does client side rendering using the data provided from `window.__INITIAL_STATE__`.
-
-#### modules
-Modules are the way of organising different domain-specific modules in the project. A typical module contains the following
-```
-| - Post
-  | - __tests__ // all the tests for this module goes here
-      | - components // Sub components of this module
-          | - Post.spec.js
-          | - PostList.spec.js
-          | - PostItem.spec.js
-          | - PostImage.spec.js
-      | - pages
-          | - PostPage.spec.js
-          | - PostViewPage.spec.js
-      | - PostReducer.spec.js
-      | - PostActions.spec.js
-  | - components // Sub components of this module
-      | - Post.js
-      | - PostList.js
-      | - PostItem.js
-      | - PostImage.js
-  | - pages // React Router Pages from this module
-      | - PostPage
-          | - PostPage.js
-          | - PostPage.css
-      | - PostViewPage
-          | - PostViewPage.js
-          | - PostViewPage.css
-  | - PostReducer.js
-  | - PostActions.js
+2. Create (and activate) a new environment, named `.devops` with Python 3. If prompted to proceed with the install `(Proceed [y]/n)` type y.
+```bash
+python3 -m venv ~/.devops
+source ~/.devops/bin/activate
 ```
 
-## Misc
+At this point your command line should look something like: `(.devops) <User>:project-ml-microservice-kubernetes<user>$`. The `(.devops)` indicates that your environment has been activated, and you can proceed with further package installations.
 
-### Importing Assets
-Assets can be kept where you want and can be imported into your js files or css files. Those fill be served by webpack in development mode and copied to the dist folder during production.
-
-### ES6 support
-We use babel to transpile code in both server and client with `stage-0` plugin. So, you can use both ES6 and experimental ES7 features.
-
-### Docker
-There are docker configurations for both development and production.
-
-To run docker for development,
-```
-docker-compose -f docker-compose-development.yml build
-docker-compose -f docker-compose-development.yml up
+3. Installing dependencies via project `Makefile`. Many of the project dependencies are listed in the file `requirements.txt`; these can be installed using `pip` commands in the provided `Makefile`. While in your project directory, type the following command to install these dependencies.
+```bash
+make install
 ```
 
-To run docker for production,
+Now most of the `.devops` libraries are available to you. There are a couple of other libraries that we'll be using, which can be downloaded as specified, below. 
+
+---
+
+#### E.2. Other Libraries
+
+While you still have your `.devops` environment activated, you will still need to install:
+* Docker
+* Hadolint
+* Kubernetes ([Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) if you want to run Kubernetes locally)
+
+#### E.3. Docker
+
+You will need to use Docker to build and upload a containerized application. If you already have this installed and created a docker account, you may skip this step.
+
+1. You’ll need to [create a free docker account](https://hub.docker.com/signup), where you’ll choose a unique username and link your email to a docker account. **Your username is your unique docker ID.**
+
+2. To install the latest version of docker, choose the Community Edition (CE) for your operating system, [on docker’s installation site](https://docs.docker.com/v17.12/install/). It is also recommended that you install the latest, **stable** release:
+
+3. After installation, you can verify that you’ve successfully installed docker by printing its version in your terminal: `docker --version`
+
+#### E.4. Run Lint Checks
+
+This project also must pass two lint checks; `hadolint` checks the Dockerfile for errors and `pylint` checks the `app.py` source code for errors.
+
+1. Install `hadolint` following the instructions, [on hadolint's page]( https://github.com/hadolint/hadolint): 
+
+**For Mac:**
+```bash
+brew install hadolint
 ```
-docker-compose build
-docker-compose up
+**For Windows:**
+```bash
+scoop install hadolint
+```
+2. In your terminal, type: `make lint` to run lint checks on the project code. If you haven’t changed any code, all requirements should be satisfied, and you should see a printed statement that rates your code (and prints out any additional comments):
+
+```bash
+------------------------------------
+Your code has been rated at 10.00/10
 ```
 
-### Make your MERN
-In this version, we enabled the `mern-cli` to clone not only this project but also the variants of `mern-starter` like one project with MaterialUI or JWT auth. To make your version of MERN, follow these steps
+That's about it! When working with kubernetes, you may need to install some other libraries, but these instructions will set you up with an environment that can build and deploy Docker containers.
 
-1. Clone this project
-    ```
-    git clone https://github.com/Hashnode/mern-starter
-    ```
-
-2. Make your changes. Add a package, add authentication, modify the file structure, replace Redux with MobX or anything else.
-
-3. In this version, we also added code generators. Blueprints for those generators are located at `config/blueprints`, and config is located at `mern.json`. Make sure to edit them if necessary after your made modifications in the previous step. There is a section below which explains how to modify generators.
-
-4. Next clone `mern-cli` project
-    ```
-    git clone https://github.com/Hashnode/mern-cli
-    ```
-
-5. Add your project details to `variants.json` in the cloned project and send a pull request.
-
-### Modifying Generators
-
-#### mern.json
-It contains a blueprints array. Each object in it is the config for a generator. A blueprint config contains the name, description, usage, and files array. An example blueprint config
-```
-{
-  "name": "dumb-s",
-  "description": "Generates a dumb react component in shared components",
-  "usage": "dumb-s [component-name]",
-  "files": [
-    {
-      "blueprint-path": "config/blueprints/dumb-component.ejs",
-      "target-path": "client/components/<%= helpers.capitalize(name) %>.js"
-    }
-  ]
-}
-```
-
-A file object contains
-
-1. `blueprint-path` - location of the blueprint file
-
-2. `target-path` - location where the file should be generated
-
-3. `parent-path` - optional parameter, used if you want to generate the file inside an already existing folder in your project.
-
-Also, `target-path` supports [ejs](https://github.com/mde/ejs) and the following variables will be passed while rendering,
-
-1. `name` - `<component-name>` input from user
-
-2. `parent` - in particular special cases where you need to generate files inside an already existing folder, you can obtain this parent variable from the user. A config using that will look like,
-    ```
-    {
-      "name": "dumb-m",
-      "description": "Generates a dumb react component in a module directory",
-      "usage": "dumb-m <module-name>/<component-name>",
-      "files": [
-        {
-          "blueprint-path": "config/blueprints/dumb-component.ejs",
-          "parent-path": "client/modules/<%= helpers.capitalize(parent) %>",
-          "target-path": "components/<%= helpers.capitalize(name) %>/<%= helpers.capitalize(name) %>.js"
-        }
-      ]
-    }
-    ```
-    Here, notice the usage. In `<module-name>/<component-name>`, `<module-name>` will be passed as `parent` and `<component-name>` will be passed as `<name>`.
-
-3. `helpers` - an helper object is passed which include common utility functions. For now, it contains `capitalize`. If you want to add more, send a PR to [mern-cli](https://github.com/Hashnode/mern-cli).
-
-#### Blueprint files
-Blueprints are basically [ejs](https://github.com/mde/ejs) templates which are rendered with the same three variables(`name`, optional `parent` and `helpers` object) as above.
-
-### Caveats
-
-#### FOUC (Flash of Unstyled Content)
-To make the hot reloading of CSS work, we are not extracting CSS in development. Ideally, during server rendering, we will be extracting CSS, and we will get a .css file, and we can use it in the html template. That's what we are doing in production.
-
-In development, after all scripts get loaded, react loads the CSS as BLOBs. That's why there is a second of FOUC in development.
-
-#### Client and Server Markup Mismatch
-This warning is visible only on development and totally harmless. This occurs to hash difference in `react-router`. To solve it, react router docs asks you to use `match` function. If we use `match`, `react-hot-reloader` stops working.
-
-## License
-MERN is released under the [MIT License](http://www.opensource.org/licenses/MIT).
